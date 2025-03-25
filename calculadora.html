@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculadora - Funciones Lineales</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">Funciones Lineales</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="teorico.html">Teórico</a></li>
+                <li><a href="ejemplos.html">Ejemplos</a></li>
+                <li><a href="calculadora.html" class="active">Calculadora</a></li>
+                <li><a href="laberinto.html">Laberinto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="calculator">
+            <h2>Calculadora de Funciones Lineales</h2>
+            
+            <div class="ejemplos-interactivos">
+                <h3>Ejemplos Interactivos</h3>
+                <p>Haz clic en cualquier ejemplo para cargarlo en la calculadora:</p>
+                <div class="ejemplos-grid">
+                    <div class="ejemplo-card" onclick="cargarEjemplo(2, 3)">
+                        <h4>Recta Creciente</h4>
+                        <p>y = 2x + 3</p>
+                        <small>Pendiente positiva con intersección positiva</small>
+                    </div>
+                    <div class="ejemplo-card" onclick="cargarEjemplo(-1, 1)">
+                        <h4>Recta Decreciente</h4>
+                        <p>y = -x + 1</p>
+                        <small>Pendiente negativa con intersección positiva</small>
+                    </div>
+                    <div class="ejemplo-card" onclick="cargarEjemplo(0, 2)">
+                        <h4>Recta Horizontal</h4>
+                        <p>y = 2</p>
+                        <small>Pendiente cero (paralela al eje X)</small>
+                    </div>
+                    <div class="ejemplo-card" onclick="cargarEjemplo(1, 0)">
+                        <h4>Recta por el Origen</h4>
+                        <p>y = x</p>
+                        <small>Pasa por el punto (0,0)</small>
+                    </div>
+                    <div class="ejemplo-card" onclick="cargarEjemplo(1, -2)">
+                        <h4>Intersección Negativa</h4>
+                        <p>y = x - 2</p>
+                        <small>Corta al eje Y en un punto negativo</small>
+                    </div>
+                    <div class="ejemplo-card" onclick="cargarEjemplo(3, 0)">
+                        <h4>Pendiente Mayor</h4>
+                        <p>y = 3x</p>
+                        <small>Crecimiento más pronunciado</small>
+                    </div>
+                </div>
+            </div>
+
+            <div class="calculator-grid">
+                <div class="calculator-inputs">
+                    <div class="input-group">
+                        <label for="a">Pendiente (a):</label>
+                        <input type="number" id="a" value="1" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="b">Intersección con Y (b):</label>
+                        <input type="number" id="b" value="0" step="0.1">
+                    </div>
+                    <div class="input-group">
+                        <label for="x-value">Calcular Y para X:</label>
+                        <input type="number" id="x-value" placeholder="Ingrese un valor de X">
+                    </div>
+                    <div class="button-group">
+                        <button onclick="drawLine()" class="btn-primary">Graficar</button>
+                        <button onclick="calculateY()" class="btn-secondary">Calcular Y</button>
+                        <button onclick="clearGraph()" class="btn-danger">Limpiar</button>
+                    </div>
+                </div>
+
+                <div class="calculator-graph">
+                    <canvas id="canvas" width="400" height="400"></canvas>
+                    <div class="graph-controls">
+                        <div class="zoom-controls">
+                            <button onclick="zoomIn()" class="btn-small">+</button>
+                            <button onclick="zoomOut()" class="btn-small">-</button>
+                        </div>
+                        <div class="grid-toggle">
+                            <label>
+                                <input type="checkbox" id="showGrid" checked onchange="toggleGrid()">
+                                Mostrar Cuadrícula
+                            </label>
+                        </div>
+                        <button onclick="toggleFullscreen()" class="btn-small fullscreen-btn" title="Pantalla completa">
+                            <svg class="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                                <path d="M3 15h6v6h3v-9H3v3zm6-12H3v3h9V3H9v6zm12 0h-3v3h-3V3h6v6zm-6 12h9v-3h-6v-3h-3v6z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="results-section">
+                <div id="procedimiento">
+                    <!-- Aquí se mostrará el procedimiento -->
+                </div>
+                <div id="resultado" class="resultado">
+                    <!-- Aquí se mostrará el resultado del cálculo -->
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Botón de cambio de tema -->
+    <button class="theme-toggle" id="theme-toggle" title="Cambiar tema">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+        </svg>
+    </button>
+
+    <!-- Script de la calculadora -->
+    <script src="script.js"></script>
+
+    <script>
+        // Función para obtener parámetros de la URL
+        function getUrlParams() {
+            const params = new URLSearchParams(window.location.search);
+            return {
+                a: params.get('a'),
+                b: params.get('b')
+            };
+        }
+
+        // Función para cargar valores desde la URL
+        function cargarValoresDesdeURL() {
+            const params = getUrlParams();
+            if (params.a !== null && params.b !== null) {
+                document.getElementById('a').value = params.a;
+                document.getElementById('b').value = params.b;
+                // Dibujar la línea automáticamente
+                drawLine();
+                // Hacer scroll suave hasta la calculadora
+                document.querySelector('.calculator').scrollIntoView({ 
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
+        }
+
+        // Inicializar canvas y cargar valores cuando se carga la página
+        document.addEventListener('DOMContentLoaded', () => {
+            initCanvas();
+            drawGrid();
+            cargarValoresDesdeURL();
+        });
+
+        // Manejar cambios de tamaño de ventana
+        window.addEventListener('resize', () => {
+            initCanvas();
+            drawGrid();
+            if (document.getElementById('a').value && document.getElementById('b').value) {
+                drawLine();
+            }
+        });
+
+        // Función para manejar el cambio de tema
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Actualizar el ícono del botón
+            updateThemeIcon(newTheme);
+        }
+
+        // Función para actualizar el ícono según el tema
+        function updateThemeIcon(theme) {
+            const button = document.getElementById('theme-toggle');
+            if (theme === 'dark') {
+                button.innerHTML = `<svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+                </svg>`;
+            } else {
+                button.innerHTML = `<svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                </svg>`;
+            }
+        }
+
+        // Inicializar el tema
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+            
+            // Agregar evento click al botón
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        });
+    </script>
+</body>
+</html>

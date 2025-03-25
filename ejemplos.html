@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ejemplos - Funciones Lineales</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-logo">Funciones Lineales</h1>
+            <ul class="nav-menu">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="teorico.html">Teórico</a></li>
+                <li><a href="ejemplos.html" class="active">Ejemplos</a></li>
+                <li><a href="calculadora.html">Calculadora</a></li>
+                <li><a href="laberinto.html">Laberinto</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <article class="teoria">
+            <h1>Ejemplos y Ejercicios de Funciones Lineales</h1>
+            
+            <section class="teoria-section">
+                <h2>Problemas Resueltos</h2>
+                
+                <div class="problema-resuelto">
+                    <h3>Problema 1: Costo de Producción</h3>
+                    <div class="problema-descripcion">
+                        <p><strong>Enunciado:</strong> Una fábrica tiene costos fijos mensuales de $5000 y cada producto cuesta $200 producirlo. Encuentra la función que representa el costo total y calcula el costo para 100 unidades.</p>
+                        
+                        <div class="solucion">
+                            <h4>Solución:</h4>
+                            <ol>
+                                <li>Identificamos las variables:
+                                    <ul>
+                                        <li>x = número de unidades</li>
+                                        <li>y = costo total</li>
+                                        <li>Costo fijo = $5000</li>
+                                        <li>Costo por unidad = $200</li>
+                                    </ul>
+                                </li>
+                                <li>Escribimos la función lineal:
+                                    <div class="formula">y = 200x + 5000</div>
+                                </li>
+                                <li>Calculamos para 100 unidades:
+                                    <div class="formula">y = 200(100) + 5000 = 25000</div>
+                                </li>
+                            </ol>
+                            <p><strong>Respuesta:</strong> El costo total para 100 unidades es $25000</p>
+                            <button class="btn-primary" onclick="window.location.href='calculadora.html?a=200&b=5000'">Probar en la Calculadora</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problema-resuelto">
+                    <h3>Problema 2: Conversión de Temperatura</h3>
+                    <div class="problema-descripcion">
+                        <p><strong>Enunciado:</strong> Encuentra la función lineal que convierte grados Celsius (C) a Fahrenheit (F) y calcula la temperatura en Fahrenheit para 25°C.</p>
+                        
+                        <div class="solucion">
+                            <h4>Solución:</h4>
+                            <ol>
+                                <li>La fórmula de conversión es:
+                                    <div class="formula">F = \frac{9}{5}C + 32</div>
+                                </li>
+                                <li>Identificamos:
+                                    <ul>
+                                        <li>a = 9/5 (pendiente)</li>
+                                        <li>b = 32 (intersección)</li>
+                                    </ul>
+                                </li>
+                                <li>Calculamos para 25°C:
+                                    <div class="formula">F = \frac{9}{5}(25) + 32 = 45 + 32 = 77</div>
+                                </li>
+                            </ol>
+                            <p><strong>Respuesta:</strong> 25°C equivale a 77°F</p>
+                            <button class="btn-primary" onclick="window.location.href='calculadora.html?a=1.8&b=32'">Probar en la Calculadora</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="teoria-section">
+                <h2>Ejercicios de Práctica</h2>
+                
+                <div class="ejercicio-practica">
+                    <h3>Ejercicio 1: Velocidad Constante</h3>
+                    <p><strong>Enunciado:</strong> Un automóvil viaja a velocidad constante de 60 km/h. Si comienza su viaje en el kilómetro 10:</p>
+                    <ol>
+                        <li>Encuentra la función que describe la posición (y) en función del tiempo (x)</li>
+                        <li>¿A qué distancia estará después de 2 horas?</li>
+                        <li>¿Cuánto tiempo tardará en llegar al kilómetro 190?</li>
+                    </ol>
+                    <button class="btn-hint" onclick="mostrarPista('pista1')">Ver Pista</button>
+                    <div id="pista1" class="pista">
+                        <p>Pista: La función será de la forma y = 60x + 10, donde:</p>
+                        <ul>
+                            <li>60 es la velocidad (pendiente)</li>
+                            <li>10 es la posición inicial (intersección)</li>
+                        </ul>
+                    </div>
+                    <button class="btn-primary" onclick="window.location.href='calculadora.html?a=60&b=10'">Probar en la Calculadora</button>
+                </div>
+
+                <div class="ejercicio-practica">
+                    <h3>Ejercicio 2: Depreciación Lineal</h3>
+                    <p><strong>Enunciado:</strong> Una máquina nueva cuesta $50000 y se deprecia linealmente $5000 por año.</p>
+                    <ol>
+                        <li>Escribe la función que describe el valor (y) en función del tiempo (x)</li>
+                        <li>¿Cuál será su valor después de 4 años?</li>
+                        <li>¿En cuántos años la máquina tendrá un valor de $20000?</li>
+                    </ol>
+                    <button class="btn-hint" onclick="mostrarPista('pista2')">Ver Pista</button>
+                    <div id="pista2" class="pista">
+                        <p>Pista: La función será de la forma y = -5000x + 50000, donde:</p>
+                        <ul>
+                            <li>-5000 es la tasa de depreciación (pendiente negativa)</li>
+                            <li>50000 es el valor inicial (intersección)</li>
+                        </ul>
+                    </div>
+                    <button class="btn-primary" onclick="window.location.href='calculadora.html?a=-5000&b=50000'">Probar en la Calculadora</button>
+                </div>
+            </section>
+
+            <section class="teoria-section">
+                <h2>Ejemplos Adicionales</h2>
+                
+                <div class="problema-resuelto">
+                    <h3>Ejemplo 3: Llenado de un Tanque</h3>
+                    <div class="problema-descripcion">
+                        <p><strong>Enunciado:</strong> Un tanque se llena con agua a razón de 20 litros por minuto. Si el tanque ya contenía 100 litros, encuentra la función que describe la cantidad de agua en función del tiempo.</p>
+                        
+                        <div class="solucion">
+                            <h4>Solución:</h4>
+                            <ol>
+                                <li>Identificamos las variables:
+                                    <ul>
+                                        <li>x = tiempo en minutos</li>
+                                        <li>y = cantidad de agua en litros</li>
+                                        <li>Tasa de llenado = 20 L/min</li>
+                                        <li>Cantidad inicial = 100 L</li>
+                                    </ul>
+                                </li>
+                                <li>La función lineal será:
+                                    <div class="formula">y = 20x + 100</div>
+                                </li>
+                            </ol>
+                            <button class="btn-primary" onclick="window.location.href='calculadora.html?a=20&b=100'">Probar en la Calculadora</button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="problema-resuelto">
+                    <h3>Ejemplo 4: Distancia vs Tiempo</h3>
+                    <div class="problema-descripcion">
+                        <p><strong>Enunciado:</strong> Un tren se mueve a velocidad constante de 80 km/h partiendo desde una estación. Encuentra la función que describe la distancia recorrida en función del tiempo.</p>
+                        
+                        <div class="solucion">
+                            <h4>Solución:</h4>
+                            <ol>
+                                <li>Identificamos:
+                                    <ul>
+                                        <li>x = tiempo en horas</li>
+                                        <li>y = distancia en kilómetros</li>
+                                        <li>Velocidad = 80 km/h</li>
+                                        <li>Posición inicial = 0 km</li>
+                                    </ul>
+                                </li>
+                                <li>La función lineal será:
+                                    <div class="formula">y = 80x</div>
+                                </li>
+                            </ol>
+                            <button class="btn-primary" onclick="window.location.href='calculadora.html?a=80&b=0'">Probar en la Calculadora</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </article>
+    </div>
+
+    <script>
+        function mostrarPista(pistaId) {
+            const pista = document.getElementById(pistaId);
+            if (pista.style.display === 'block') {
+                pista.style.display = 'none';
+            } else {
+                pista.style.display = 'block';
+            }
+        }
+    </script>
+
+    <!-- Botón de cambio de tema -->
+    <button class="theme-toggle" id="theme-toggle" title="Cambiar tema">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+        </svg>
+    </button>
+
+    <script>
+        // Función para manejar el cambio de tema
+        function toggleTheme() {
+            const html = document.documentElement;
+            const currentTheme = html.getAttribute('data-theme');
+            const newTheme = currentTheme === 'dark' ? 'light' : 'dark';
+            
+            html.setAttribute('data-theme', newTheme);
+            localStorage.setItem('theme', newTheme);
+            
+            // Actualizar el ícono del botón
+            updateThemeIcon(newTheme);
+        }
+
+        // Función para actualizar el ícono según el tema
+        function updateThemeIcon(theme) {
+            const button = document.getElementById('theme-toggle');
+            if (theme === 'dark') {
+                button.innerHTML = `<svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z"/>
+                </svg>`;
+            } else {
+                button.innerHTML = `<svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                    <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+                </svg>`;
+            }
+        }
+
+        // Inicializar el tema
+        document.addEventListener('DOMContentLoaded', () => {
+            const savedTheme = localStorage.getItem('theme') || 'light';
+            document.documentElement.setAttribute('data-theme', savedTheme);
+            updateThemeIcon(savedTheme);
+            
+            // Agregar evento click al botón
+            document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        });
+    </script>
+</body>
+</html>

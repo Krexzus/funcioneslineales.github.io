@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Laberinto Matemático - Funciones Lineales</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="laberinto.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <h1>Laberinto Matemático</h1>
+        <nav>
+            <ul>
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="teorico.html">Teoría</a></li>
+                <li><a href="ejemplos.html">Ejemplos</a></li>
+                <li><a href="calculadora.html">Calculadora</a></li>
+                <li><a href="laberinto.html" class="active">Laberinto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="container">
+        <!-- Pantalla de inicio -->
+        <section id="intro-screen" class="game-screen active">
+            <div class="intro-content">
+                <h2>Explora el Laberinto de Funciones Lineales</h2>
+                <p class="intro-text">Adéntrate en un laberinto donde cada paso te llevará a profundizar tus conocimientos sobre funciones lineales.</p>
+                
+                <div class="game-objective">
+                    <h3>Objetivo</h3>
+                    <p>Navega por el laberinto resolviendo desafíos de funciones lineales para desbloquear el camino y encontrar la salida.</p>
+                </div>
+                
+                <div class="game-warning">
+                    <h3>⚠️ Importante</h3>
+                    <p>Para completar cada nivel, debes abrir todas las puertas del laberinto resolviendo correctamente los problemas matemáticos. Cada puerta requiere una respuesta correcta para abrirse.</p>
+                    <ul class="warning-list">
+                        <li>Nivel 1: 5 puertas para abrir</li>
+                        <li>Nivel 2: 5 puertas para abrir</li>
+                        <li>Nivel 3: 5 puertas para abrir</li>
+                    </ul>
+                </div>
+                
+                <div class="difficulty-selector">
+                    <h3>Selecciona tu dificultad</h3>
+                    <div class="difficulty-options">
+                        <button class="difficulty-btn" data-level="1">
+                            <span class="icon">🔍</span>
+                            <span class="label">Principiante</span>
+                            <span class="description">Evaluación de funciones</span>
+                        </button>
+                        <button class="difficulty-btn" data-level="2">
+                            <span class="icon">⚙️</span>
+                            <span class="label">Intermedio</span>
+                            <span class="description">Despeje de variables</span>
+                        </button>
+                        <button class="difficulty-btn" data-level="3">
+                            <span class="icon">🧮</span>
+                            <span class="label">Avanzado</span>
+                            <span class="description">Construcción de ecuaciones</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="controls-tutorial">
+                    <h3>Controles</h3>
+                    <div class="controls-grid">
+                        <div class="control-item">
+                            <span class="key">↑ ↓ ← →</span>
+                            <span class="action">Mover personaje</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">ESPACIO</span>
+                            <span class="action">Interactuar</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">H</span>
+                            <span class="action">Pista</span>
+                        </div>
+                        <div class="control-item">
+                            <span class="key">P</span>
+                            <span class="action">Pausa</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <button id="start-game" class="primary-btn">¡Comenzar aventura!</button>
+            </div>
+        </section>
+
+        <!-- Pantalla del juego -->
+        <section id="game-screen" class="game-screen">
+            <div class="game-header">
+                <div class="level-info">
+                    <h3 id="level-title">Nivel 1: Principiante</h3>
+                </div>
+                <div class="game-stats">
+                    <div class="stat-item">
+                        <i class="fas fa-clock"></i>
+                        <span id="timer">00:00</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-door-open"></i>
+                        <span id="doors-count">0/0</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class="fas fa-heart"></i>
+                        <span id="lives-count">3</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="maze-container">
+                <canvas id="maze-canvas"></canvas>
+                <div id="controls-overlay" class="controls-overlay">
+                    <div class="dpad">
+                        <button id="up-btn" class="dpad-btn up-btn">↑</button>
+                        <button id="left-btn" class="dpad-btn left-btn">←</button>
+                        <button id="right-btn" class="dpad-btn right-btn">→</button>
+                        <button id="down-btn" class="dpad-btn down-btn">↓</button>
+                    </div>
+                    <button id="action-btn" class="action-btn">Acción</button>
+                </div>
+            </div>
+
+            <div class="game-footer">
+                <div class="game-buttons">
+                    <button id="hint-btn" class="secondary-btn">Pista</button>
+                    <button id="exit-btn" class="secondary-btn">Salir</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Ventana modal de problema -->
+        <div id="problem-modal" class="modal">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h3 id="modal-title">Evaluación de Función</h3>
+                    <button id="close-modal" class="close-btn">&times;</button>
+                </div>
+                
+                <div class="modal-body">
+                    <div id="problem-statement" class="problem-statement">
+                        <p>Dada la función f(x) = 2x + 3, calcula f(4).</p>
+                    </div>
+                    
+                    <div id="problem-options" class="problem-options">
+                        <button class="option-btn">8</button>
+                        <button class="option-btn">10</button>
+                        <button class="option-btn">11</button>
+                        <button class="option-btn">14</button>
+                    </div>
+                    
+                    <div id="answer-input-area" class="answer-input-area">
+                        <label for="answer-input">Tu respuesta:</label>
+                        <input type="text" id="answer-input" placeholder="Escribe aquí...">
+                    </div>
+                    
+                    <div id="problem-feedback" class="problem-feedback">
+                        <!-- El feedback se mostrará aquí -->
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button id="check-answer" class="primary-btn">Verificar</button>
+                    <button id="show-hint" class="secondary-btn">Mostrar pista</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pantalla de pausa -->
+        <section id="pause-screen" class="game-screen">
+            <div class="pause-content">
+                <h2>Juego en Pausa</h2>
+                <div class="pause-menu">
+                    <button id="resume-btn" class="primary-btn">Continuar</button>
+                    <button id="restart-btn" class="secondary-btn">Reiniciar nivel</button>
+                    <button id="main-menu-btn" class="secondary-btn">Menú principal</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pantalla de nivel completado -->
+        <section id="level-complete-screen" class="game-screen">
+            <div class="level-complete-content">
+                <div class="completion-badge">
+                    <span class="trophy-icon">🏆</span>
+                </div>
+                <h2>¡Nivel Completado!</h2>
+                
+                <div class="completion-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">⏱️</span>
+                        <span class="stat-label">Tiempo:</span>
+                        <span id="completion-time" class="stat-value">00:00</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">🚪</span>
+                        <span class="stat-label">Puertas abiertas:</span>
+                        <span id="completion-doors" class="stat-value">0/5</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">❌</span>
+                        <span class="stat-label">Errores:</span>
+                        <span id="completion-errors" class="stat-value">0</span>
+                    </div>
+                </div>
+                
+                <div class="completion-actions">
+                    <button id="next-level-btn" class="primary-btn">Siguiente nivel</button>
+                    <button id="replay-level-btn" class="secondary-btn">Volver a jugar</button>
+                    <button id="completion-menu-btn" class="secondary-btn">Menú principal</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pantalla de juego completado -->
+        <section id="game-complete-screen" class="game-screen">
+            <div class="screen-content">
+                <h2>¡Felicidades!</h2>
+                <p>Has completado todos los niveles del laberinto matemático.</p>
+                <div class="completion-stats">
+                    <p>Tiempo total: <span id="game-complete-time">00:00</span></p>
+                    <p>Nivel alcanzado: <span id="game-complete-level">3</span></p>
+                </div>
+                <div class="button-group">
+                    <button id="play-again-btn" class="btn primary">Jugar de nuevo</button>
+                    <button id="complete-menu-btn" class="btn secondary">Menú principal</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Pantalla de Game Over -->
+        <section id="game-over-screen" class="game-screen">
+            <div class="game-over-content">
+                <div class="game-over-badge">
+                    <span class="skull-icon">💀</span>
+                </div>
+                <h2>¡Game Over!</h2>
+                <p>Te has quedado sin vidas.</p>
+                
+                <div class="completion-stats">
+                    <div class="stat-item">
+                        <span class="stat-icon">✅</span>
+                        <span class="stat-label">Problemas resueltos:</span>
+                        <span id="game-over-problems" class="stat-value">0</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-icon">❌</span>
+                        <span class="stat-label">Intentos incorrectos:</span>
+                        <span id="game-over-attempts" class="stat-value">0</span>
+                    </div>
+                </div>
+                
+                <div class="completion-actions">
+                    <button id="restart-game-btn" class="primary-btn">Reiniciar Juego</button>
+                    <button id="game-over-menu-btn" class="secondary-btn">Menú principal</button>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Botón de tema global -->
+    <button id="global-theme-toggle" class="theme-toggle" aria-label="Cambiar tema" title="Cambiar entre modo claro y oscuro">
+        <svg class="sun-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M12 2.25a.75.75 0 01.75.75v2.25a.75.75 0 01-1.5 0V3a.75.75 0 01.75-.75zM7.5 12a4.5 4.5 0 119 0 4.5 4.5 0 01-9 0zM18.894 6.166a.75.75 0 00-1.06-1.06l-1.591 1.59a.75.75 0 101.06 1.061l1.591-1.59zM21.75 12a.75.75 0 01-.75.75h-2.25a.75.75 0 010-1.5H21a.75.75 0 01.75.75zM17.834 18.894a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 10-1.061 1.06l1.59 1.591zM12 18a.75.75 0 01.75.75V21a.75.75 0 01-1.5 0v-2.25A.75.75 0 0112 18zM7.758 17.303a.75.75 0 00-1.061-1.06l-1.591 1.59a.75.75 0 001.06 1.061l1.591-1.59zM6 12a.75.75 0 01-.75.75H3a.75.75 0 010-1.5h2.25A.75.75 0 016 12zM6.697 7.757a.75.75 0 001.06-1.06l-1.59-1.591a.75.75 0 00-1.061 1.06l1.59 1.591z"/>
+        </svg>
+        <svg class="moon-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path fill-rule="evenodd" clip-rule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z"/>
+        </svg>
+    </button>
+
+    <!-- Scripts -->
+    <script src="laberinto.js"></script>
+    <script>
+        // Inicializar el tema al cargar la página
+        document.addEventListener('DOMContentLoaded', initTheme);
+        
+        // Asignar evento de clic al botón de cambio de tema global
+        document.getElementById('global-theme-toggle').addEventListener('click', toggleTheme);
+    </script>
+</body>
+</html>
