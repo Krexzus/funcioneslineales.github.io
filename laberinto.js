@@ -1326,6 +1326,20 @@ function showSimpleProblem(doorX, doorY) {
                 }
             }
         }
+    } else {
+        // El jugador canceló el problema
+        gameState.lives--;
+        gameState.wrongAttempts++;
+        updateLivesCount();
+        
+        if (gameState.lives <= 0) {
+            // Game Over
+            gameState.isGameOver = true;
+            alert("¡Game Over! Te has quedado sin vidas.");
+            showGameOver();
+        } else {
+            alert(`Has cancelado el problema. Te quedan ${gameState.lives} vidas.`);
+        }
     }
 }
 
