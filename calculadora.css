@@ -1,0 +1,332 @@
+.calculator-container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px;
+    background: var(--card-bg);
+    border-radius: 24px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    backdrop-filter: blur(10px);
+}
+
+.calculator-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(45deg, transparent, rgba(76, 175, 80, 0.1), transparent);
+    pointer-events: none;
+}
+
+.calculator-container h2 {
+    text-align: center;
+    color: var(--text-color);
+    margin-bottom: 40px;
+    font-size: 2.4em;
+    font-weight: 800;
+    position: relative;
+    padding-bottom: 20px;
+    background: linear-gradient(135deg, var(--text-color), #4CAF50);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.calculator-container h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, #4CAF50, #45a049);
+    border-radius: 2px;
+}
+
+.input-group {
+    margin-bottom: 30px;
+    padding: 30px;
+    background: var(--input-bg);
+    border-radius: 20px;
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.05);
+}
+
+.input-group:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
+}
+
+.input-group h3 {
+    color: var(--text-color);
+    margin-bottom: 25px;
+    font-size: 1.4em;
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.input-group h3::before {
+    content: '📍';
+    font-size: 1.5em;
+}
+
+.input-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    position: relative;
+}
+
+.input-row label {
+    width: 60px;
+    color: var(--text-color);
+    font-weight: 600;
+    font-size: 1.2em;
+    text-align: right;
+    margin-right: 20px;
+}
+
+.input-row input {
+    flex: 1;
+    padding: 15px 20px;
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-size: 1.2em;
+    transition: all 0.3s ease;
+}
+
+.input-row input:focus {
+    border-color: #4CAF50;
+    box-shadow: 0 0 0 4px rgba(76, 175, 80, 0.15);
+    outline: none;
+}
+
+.calculate-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 25px 40px;
+    background: linear-gradient(135deg, #4CAF50, #45a049);
+    color: white;
+    border: none;
+    border-radius: 16px;
+    cursor: pointer;
+    font-size: 1.6em;
+    font-weight: 700;
+    margin: 40px 0;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 10px 30px rgba(76, 175, 80, 0.3);
+    position: relative;
+    overflow: hidden;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    gap: 15px;
+}
+
+.calculate-btn:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(76, 175, 80, 0.4);
+    background: linear-gradient(135deg, #45a049, #4CAF50);
+}
+
+.calculate-btn:active {
+    transform: translateY(2px);
+    box-shadow: 0 5px 20px rgba(76, 175, 80, 0.3);
+}
+
+#graphCanvas {
+    width: 100%;
+    height: 500px;
+    background: var(--bg-color);
+    border-radius: 20px;
+    margin: 40px 0;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    transition: all 0.3s ease;
+}
+
+#graphCanvas:hover {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.results-container {
+    margin-top: 50px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 40px;
+}
+
+.results, .procedure {
+    background: var(--input-bg);
+    padding: 35px;
+    border-radius: 24px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+    border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.results:hover, .procedure:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.15);
+}
+
+.results h3, .procedure h3 {
+    color: var(--text-color);
+    margin-bottom: 30px;
+    font-size: 1.6em;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.results h3::before {
+    content: '📊';
+    font-size: 1.8em;
+}
+
+.procedure h3::before {
+    content: '📝';
+    font-size: 1.8em;
+}
+
+.results p {
+    color: var(--text-color);
+    margin-bottom: 20px;
+    font-size: 1.2em;
+    line-height: 1.6;
+    padding: 15px;
+    background: var(--bg-color);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+}
+
+.results p:hover {
+    transform: translateX(10px);
+    background: var(--card-bg);
+}
+
+#procedure-steps {
+    color: var(--text-color);
+    font-size: 1.1em;
+    line-height: 1.8;
+}
+
+#procedure-steps p {
+    margin-bottom: 15px;
+    padding: 12px 15px;
+    background: var(--bg-color);
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+#procedure-steps p:hover {
+    transform: translateX(10px);
+    background: var(--card-bg);
+}
+
+#procedure-steps strong {
+    color: #4CAF50;
+    font-weight: 600;
+    font-size: 1.1em;
+}
+
+/* Dark mode specific styles */
+[data-theme="dark"] .calculator-container {
+    background: rgba(30, 30, 30, 0.95);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+[data-theme="dark"] .input-group {
+    background: rgba(40, 40, 40, 0.95);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .results, [data-theme="dark"] .procedure {
+    background: rgba(40, 40, 40, 0.95);
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+}
+
+[data-theme="dark"] .results p, [data-theme="dark"] #procedure-steps p {
+    background: rgba(30, 30, 30, 0.95);
+}
+
+[data-theme="dark"] .results p:hover, [data-theme="dark"] #procedure-steps p:hover {
+    background: rgba(50, 50, 50, 0.95);
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .calculator-container {
+        padding: 30px;
+    }
+
+    .results-container {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+
+    .results, .procedure {
+        padding: 25px;
+    }
+
+    .results h3, .procedure h3 {
+        font-size: 1.4em;
+    }
+
+    .results p, #procedure-steps p {
+        font-size: 1.1em;
+    }
+
+    #graphCanvas {
+        height: 400px;
+    }
+
+    .calculate-btn {
+        padding: 20px 30px;
+        font-size: 1.4em;
+    }
+}
+
+@media (max-width: 480px) {
+    .calculator-container {
+        padding: 20px;
+    }
+
+    .input-group {
+        padding: 20px;
+    }
+
+    .input-row label {
+        width: 50px;
+        font-size: 1.1em;
+    }
+
+    .input-row input {
+        padding: 12px 15px;
+        font-size: 1.1em;
+    }
+
+    #graphCanvas {
+        height: 300px;
+    }
+
+    .calculate-btn {
+        padding: 15px 25px;
+        font-size: 1.2em;
+    }
+} 

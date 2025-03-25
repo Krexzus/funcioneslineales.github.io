@@ -21,95 +21,43 @@
     </nav>
 
     <div class="container">
-        <div class="calculator">
-            <h2>Calculadora de Funciones Lineales</h2>
-            
-            <div class="ejemplos-interactivos">
-                <h3>Ejemplos Interactivos</h3>
-                <p>Haz clic en cualquier ejemplo para cargarlo en la calculadora:</p>
-                <div class="ejemplos-grid">
-                    <div class="ejemplo-card" onclick="cargarEjemplo(2, 3)">
-                        <h4>Recta Creciente</h4>
-                        <p>y = 2x + 3</p>
-                        <small>Pendiente positiva con intersección positiva</small>
-                    </div>
-                    <div class="ejemplo-card" onclick="cargarEjemplo(-1, 1)">
-                        <h4>Recta Decreciente</h4>
-                        <p>y = -x + 1</p>
-                        <small>Pendiente negativa con intersección positiva</small>
-                    </div>
-                    <div class="ejemplo-card" onclick="cargarEjemplo(0, 2)">
-                        <h4>Recta Horizontal</h4>
-                        <p>y = 2</p>
-                        <small>Pendiente cero (paralela al eje X)</small>
-                    </div>
-                    <div class="ejemplo-card" onclick="cargarEjemplo(1, 0)">
-                        <h4>Recta por el Origen</h4>
-                        <p>y = x</p>
-                        <small>Pasa por el punto (0,0)</small>
-                    </div>
-                    <div class="ejemplo-card" onclick="cargarEjemplo(1, -2)">
-                        <h4>Intersección Negativa</h4>
-                        <p>y = x - 2</p>
-                        <small>Corta al eje Y en un punto negativo</small>
-                    </div>
-                    <div class="ejemplo-card" onclick="cargarEjemplo(3, 0)">
-                        <h4>Pendiente Mayor</h4>
-                        <p>y = 3x</p>
-                        <small>Crecimiento más pronunciado</small>
-                    </div>
+        <h2>Calculadora de Funciones Lineales</h2>
+        
+        <div class="calculator-container">
+            <div class="input-group">
+                <h3>Punto 1</h3>
+                <div class="input-row">
+                    <label for="x1">x =</label>
+                    <input type="number" id="x1" step="any" placeholder="Ingresa x1">
+                </div>
+                <div class="input-row">
+                    <label for="y1">y =</label>
+                    <input type="number" id="y1" step="any" placeholder="Ingresa y1">
                 </div>
             </div>
-
-            <div class="calculator-grid">
-                <div class="calculator-inputs">
-                    <div class="input-group">
-                        <label for="a">Pendiente (a):</label>
-                        <input type="number" id="a" value="1" step="0.1">
-                    </div>
-                    <div class="input-group">
-                        <label for="b">Intersección con Y (b):</label>
-                        <input type="number" id="b" value="0" step="0.1">
-                    </div>
-                    <div class="input-group">
-                        <label for="x-value">Calcular Y para X:</label>
-                        <input type="number" id="x-value" placeholder="Ingrese un valor de X">
-                    </div>
-                    <div class="button-group">
-                        <button onclick="drawLine()" class="btn-primary">Graficar</button>
-                        <button onclick="calculateY()" class="btn-secondary">Calcular Y</button>
-                        <button onclick="clearGraph()" class="btn-danger">Limpiar</button>
-                    </div>
+            <div class="input-group">
+                <h3>Punto 2</h3>
+                <div class="input-row">
+                    <label for="x2">x =</label>
+                    <input type="number" id="x2" step="any" placeholder="Ingresa x2">
                 </div>
-
-                <div class="calculator-graph">
-                    <canvas id="canvas" width="400" height="400"></canvas>
-                    <div class="graph-controls">
-                        <div class="zoom-controls">
-                            <button onclick="zoomIn()" class="btn-small">+</button>
-                            <button onclick="zoomOut()" class="btn-small">-</button>
-                        </div>
-                        <div class="grid-toggle">
-                            <label>
-                                <input type="checkbox" id="showGrid" checked onchange="toggleGrid()">
-                                Mostrar Cuadrícula
-                            </label>
-                        </div>
-                        <button onclick="toggleFullscreen()" class="btn-small fullscreen-btn" title="Pantalla completa">
-                            <svg class="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                                <path d="M3 15h6v6h3v-9H3v3zm6-12H3v3h9V3H9v6zm12 0h-3v3h-3V3h6v6zm-6 12h9v-3h-6v-3h-3v6z"/>
-                            </svg>
-                        </button>
-                    </div>
+                <div class="input-row">
+                    <label for="y2">y =</label>
+                    <input type="number" id="y2" step="any" placeholder="Ingresa y2">
                 </div>
             </div>
-
-            <div class="results-section">
-                <div id="procedimiento">
-                    <!-- Aquí se mostrará el procedimiento -->
+            <button class="calculate-btn" onclick="calculateFunction()">Calcular</button>
+            <canvas id="graphCanvas"></canvas>
+            <div class="results-container">
+                <div class="results">
+                    <h3>Resultados</h3>
+                    <p>Ecuación: <span id="equation"></span></p>
+                    <p>Pendiente (m): <span id="slope"></span></p>
+                    <p>Intersección (b): <span id="intercept"></span></p>
                 </div>
-                <div id="resultado" class="resultado">
-                    <!-- Aquí se mostrará el resultado del cálculo -->
+                <div class="procedure">
+                    <h3>Procedimiento</h3>
+                    <div id="procedure-steps"></div>
                 </div>
             </div>
         </div>
@@ -123,7 +71,7 @@
     </button>
 
     <!-- Script de la calculadora -->
-    <script src="script.js"></script>
+    <script src="calculadora.js"></script>
 
     <script>
         // Función para obtener parámetros de la URL
