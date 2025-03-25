@@ -2,32 +2,42 @@
 let canvas, ctx;
 let scale = 20; // Escala para la cuadrícula
 let currentM = 0, currentB = 0; // Variables para almacenar los últimos valores calculados
+let isDrawing = false; // Flag para evitar múltiples redibujos simultáneos
 
 // Inicializar el canvas
 function initCanvas() {
-    canvas = document.getElementById('graphCanvas');
-    ctx = canvas.getContext('2d');
-    
-    // Ajustar tamaño del canvas
-    const container = canvas.parentElement;
-    const containerWidth = container.clientWidth;
-    const containerHeight = Math.max(400, window.innerHeight * 0.4); // Altura mínima de 400px o 40% de la altura de la ventana
-    
-    // Establecer dimensiones del canvas
-    canvas.width = containerWidth;
-    canvas.height = containerHeight;
-    
-    // Limpiar transformaciones anteriores
-    ctx.setTransform(1, 0, 0, 1, 0, 0);
-    
-    // Centrar el origen
-    ctx.translate(canvas.width/2, canvas.height/2);
-    
-    // Redibujar la gráfica si hay valores calculados
-    if (currentM !== 0 || currentB !== 0) {
-        drawGraph(currentM, currentB);
-    } else {
-        drawGrid();
+    if (isDrawing) return; // Evitar múltiples inicializaciones simultáneas
+    isDrawing = true;
+
+    try {
+        canvas = document.getElementById('graphCanvas');
+        ctx = canvas.getContext('2d');
+        
+        // Ajustar tamaño del canvas
+        const container = canvas.parentElement;
+        const containerWidth = container.clientWidth;
+        const containerHeight = Math.max(400, window.innerHeight * 0.4);
+        
+        // Establecer dimensiones del canvas
+        canvas.width = containerWidth;
+        canvas.height = containerHeight;
+        
+        // Limpiar transformaciones anteriores
+        ctx.setTransform(1, 0, 0, 1, 0, 0);
+        
+        // Centrar el origen
+        ctx.translate(canvas.width/2, canvas.height/2);
+        
+        // Redibujar la gráfica si hay valores calculados
+        if (currentM !== 0 || currentB !== 0) {
+            drawGraph(currentM, currentB);
+        } else {
+            drawGrid();
+        }
+    } catch (error) {
+        console.error('Error al inicializar el canvas:', error);
+    } finally {
+        isDrawing = false;
     }
 }
 
@@ -94,43 +104,54 @@ function drawGrid() {
 
 // Dibujar la gráfica de la función
 function drawGraph(m, b) {
-    // Limpiar y redibujar la cuadrícula
-    drawGrid();
-    
-    // Dibujar la función
-    ctx.beginPath();
-    ctx.strokeStyle = '#2196F3';
-    ctx.lineWidth = 2;
-    
-    // Calcular puntos para dibujar la línea
-    const x1 = -canvas.width/(2*scale);
-    const x2 = canvas.width/(2*scale);
-    const y1 = m * x1 + b;
-    const y2 = m * x2 + b;
-    
-    // Dibujar la línea
-    ctx.moveTo(x1 * scale, -y1 * scale);
-    ctx.lineTo(x2 * scale, -y2 * scale);
-    ctx.stroke();
-    
-    // Dibujar los puntos de entrada
-    ctx.fillStyle = '#FF5722';
-    const x1Input = parseFloat(document.getElementById('x1').value);
-    const y1Input = parseFloat(document.getElementById('y1').value);
-    const x2Input = parseFloat(document.getElementById('x2').value);
-    const y2Input = parseFloat(document.getElementById('y2').value);
-    
-    ctx.beginPath();
-    ctx.arc(x1Input * scale, -y1Input * scale, 5, 0, 2 * Math.PI);
-    ctx.arc(x2Input * scale, -y2Input * scale, 5, 0, 2 * Math.PI);
-    ctx.fill();
-    
-    // Mostrar coordenadas de los puntos
-    ctx.font = '12px Arial';
-    ctx.fillStyle = '#FF5722';
-    ctx.textAlign = 'left';
-    ctx.fillText(`(${x1Input}, ${y1Input})`, x1Input * scale + 10, -y1Input * scale);
-    ctx.fillText(`(${x2Input}, ${y2Input})`, x2Input * scale + 10, -y2Input * scale);
+    if (isDrawing) return; // Evitar múltiples redibujos simultáneos
+    isDrawing = true;
+
+    try {
+        // Limpiar y redibujar la cuadrícula
+        drawGrid();
+        
+        // Dibujar la función
+        ctx.beginPath();
+        ctx.strokeStyle = '#2196F3';
+        ctx.lineWidth = 2;
+        
+        // Calcular puntos para dibujar la línea
+        const x1 = -canvas.width/(2*scale);
+        const x2 = canvas.width/(2*scale);
+        const y1 = m * x1 + b;
+        const y2 = m * x2 + b;
+        
+        // Dibujar la línea
+        ctx.moveTo(x1 * scale, -y1 * scale);
+        ctx.lineTo(x2 * scale, -y2 * scale);
+        ctx.stroke();
+        
+        // Dibujar los puntos de entrada
+        ctx.fillStyle = '#FF5722';
+        const x1Input = parseFloat(document.getElementById('x1').value);
+        const y1Input = parseFloat(document.getElementById('y1').value);
+        const x2Input = parseFloat(document.getElementById('x2').value);
+        const y2Input = parseFloat(document.getElementById('y2').value);
+        
+        if (!isNaN(x1Input) && !isNaN(y1Input) && !isNaN(x2Input) && !isNaN(y2Input)) {
+            ctx.beginPath();
+            ctx.arc(x1Input * scale, -y1Input * scale, 5, 0, 2 * Math.PI);
+            ctx.arc(x2Input * scale, -y2Input * scale, 5, 0, 2 * Math.PI);
+            ctx.fill();
+            
+            // Mostrar coordenadas de los puntos
+            ctx.font = '12px Arial';
+            ctx.fillStyle = '#FF5722';
+            ctx.textAlign = 'left';
+            ctx.fillText(`(${x1Input}, ${y1Input})`, x1Input * scale + 10, -y1Input * scale);
+            ctx.fillText(`(${x2Input}, ${y2Input})`, x2Input * scale + 10, -y2Input * scale);
+        }
+    } catch (error) {
+        console.error('Error al dibujar la gráfica:', error);
+    } finally {
+        isDrawing = false;
+    }
 }
 
 // Función para calcular la función
@@ -250,4 +271,24 @@ window.addEventListener('orientationchange', () => {
     setTimeout(() => {
         initCanvas();
     }, 100);
+});
+
+// Manejar scroll
+let scrollTimeout;
+window.addEventListener('scroll', () => {
+    clearTimeout(scrollTimeout);
+    scrollTimeout = setTimeout(() => {
+        if (currentM !== 0 || currentB !== 0) {
+            drawGraph(currentM, currentB);
+        }
+    }, 100);
+});
+
+// Manejar visibilidad de la página
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && (currentM !== 0 || currentB !== 0)) {
+        setTimeout(() => {
+            drawGraph(currentM, currentB);
+        }, 100);
+    }
 }); 
