@@ -1,6 +1,7 @@
 // Variables globales para el canvas
 let canvas, ctx;
 let scale = 20; // Escala para la cuadrícula
+let currentM = 0, currentB = 0; // Variables para almacenar los últimos valores calculados
 
 // Inicializar el canvas
 function initCanvas() {
@@ -9,11 +10,25 @@ function initCanvas() {
     
     // Ajustar tamaño del canvas
     const container = canvas.parentElement;
-    canvas.width = container.clientWidth;
-    canvas.height = 400;
+    const containerWidth = container.clientWidth;
+    const containerHeight = Math.max(400, window.innerHeight * 0.4); // Altura mínima de 400px o 40% de la altura de la ventana
+    
+    // Establecer dimensiones del canvas
+    canvas.width = containerWidth;
+    canvas.height = containerHeight;
+    
+    // Limpiar transformaciones anteriores
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     
     // Centrar el origen
     ctx.translate(canvas.width/2, canvas.height/2);
+    
+    // Redibujar la gráfica si hay valores calculados
+    if (currentM !== 0 || currentB !== 0) {
+        drawGraph(currentM, currentB);
+    } else {
+        drawGrid();
+    }
 }
 
 // Dibujar la cuadrícula
@@ -142,6 +157,10 @@ function calculateFunction() {
     // Calcular intersección (b)
     const b = y1 - m * x1;
 
+    // Guardar los valores actuales
+    currentM = m;
+    currentB = b;
+
     // Función para formatear números
     function formatNumber(num) {
         return Number.isInteger(num) ? num.toString() : num.toFixed(2);
@@ -152,8 +171,8 @@ function calculateFunction() {
     document.getElementById('equation').textContent = equation;
 
     // Mostrar pendiente e intersección
-    document.getElementById('slope').textContent = `Pendiente (m) = ${formatNumber(m)}`;
-    document.getElementById('intercept').textContent = `Intersección (b) = ${formatNumber(b)}`;
+    document.getElementById('slope').textContent = formatNumber(m);
+    document.getElementById('intercept').textContent = formatNumber(b);
 
     // Mostrar el procedimiento
     const procedureSteps = document.getElementById('procedure-steps');
@@ -215,8 +234,20 @@ document.addEventListener('DOMContentLoaded', () => {
     drawGrid();
 });
 
-// Manejar cambios de tamaño de ventana
+// Manejar cambios de tamaño de ventana y orientación
+let resizeTimeout;
 window.addEventListener('resize', () => {
-    initCanvas();
-    drawGrid();
+    // Usar debounce para evitar múltiples llamadas
+    clearTimeout(resizeTimeout);
+    resizeTimeout = setTimeout(() => {
+        initCanvas();
+    }, 250);
+});
+
+// Manejar cambios de orientación específicamente
+window.addEventListener('orientationchange', () => {
+    // Pequeño retraso para asegurar que el cambio de orientación se complete
+    setTimeout(() => {
+        initCanvas();
+    }, 100);
 }); 
