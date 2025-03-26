@@ -67,7 +67,7 @@ function generateLevel1Problem() {
 }
 
 function generateLevel2Problem() {
-    // Generar ecuación ax + b = cx + d que siempre tenga una única solución
+    // Generar ecuación ax + b = cx + d que siempre tenga una solución entera
     let a, c, solution, b, d;
     
     do {
@@ -76,23 +76,28 @@ function generateLevel2Problem() {
         c = Math.floor(Math.random() * 4); // 0 a 3
     } while (a === c); // Repetir si son iguales
     
-    // Generar una solución razonable
+    // Generar una solución entera razonable
     solution = Math.floor(Math.random() * 11) - 5; // -5 a 5
     
-    // Generar b y d de manera que la ecuación tenga sentido
-    b = Math.floor(Math.random() * 20) - 10; // -10 a 10
-    d = c * solution + (Math.floor(Math.random() * 10) - 5); // Asegurar que d sea diferente de ax + b
-    
-    // Verificar que la ecuación tenga solución única
-    if (a === c) {
-        // Si los coeficientes son iguales, asegurarse que b ≠ d
-        d = b + 1;
-    }
+    // Generar b y d de manera que la ecuación tenga una solución entera
+    // ax + b = cx + d
+    // ax - cx = d - b
+    // (a-c)x = d - b
+    // d = (a-c)x + b
+    d = (a - c) * solution + b;
     
     // Construir el enunciado de manera más clara
-    let leftSide = `${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
+    let leftSide = '';
     let rightSide = '';
     
+    // Construir lado izquierdo
+    if (a === 1) {
+        leftSide = `x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
+    } else {
+        leftSide = `${a}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
+    }
+    
+    // Construir lado derecho
     if (c === 0) {
         rightSide = `${d}`;
     } else if (c === 1) {
@@ -101,10 +106,13 @@ function generateLevel2Problem() {
         rightSide = `${c}x ${d >= 0 ? '+ ' + d : '- ' + Math.abs(d)}`;
     }
 
+    // La respuesta será siempre un número entero
+    const answer = solution.toString();
+
     return {
         type: "solving",
         statement: `Resuelve la ecuación: ${leftSide} = ${rightSide}`,
-        answer: solution.toString(),
+        answer: answer,
         hint: "1. Agrupa las variables (términos con x) en un lado\n2. Agrupa los números en el otro lado\n3. Despeja x dividiendo ambos lados"
     };
 }
@@ -115,17 +123,22 @@ function generateLevel3Problem() {
     let statement, answer;
 
     if (problemType === 'points') {
+        // Generar puntos que resulten en una pendiente entera
         const x1 = Math.floor(Math.random() * 5) - 2; // -2 a 2
         const y1 = Math.floor(Math.random() * 9) - 4; // -4 a 4
         const x2 = x1 + Math.floor(Math.random() * 3) + 1; // x1 + (1 a 3)
-        const y2 = Math.floor(Math.random() * 9) - 4; // -4 a 4
         
-        const m = (y2 - y1) / (x2 - x1);
+        // Calcular y2 para que la pendiente sea entera
+        const m = Math.floor(Math.random() * 7) - 3; // -3 a 3
+        const y2 = y1 + m * (x2 - x1);
+        
+        // Calcular b para que sea entero
         const b = y1 - m * x1;
 
         statement = `Encuentra la ecuación de la recta que pasa por los puntos (${x1},${y1}) y (${x2},${y2}). Usa el formato y = mx + b`;
-        answer = `y = ${m % 1 === 0 ? m : m.toFixed(1)}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`.replace(/\s+/g, ' ');
+        answer = `y = ${m}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
     } else {
+        // Generar pendiente e intercepto enteros
         const m = Math.floor(Math.random() * 7) - 3; // -3 a 3
         const b = Math.floor(Math.random() * 11) - 5; // -5 a 5
 
@@ -1526,9 +1539,41 @@ function checkAnswer() {
     const correctAnswer = currentProblem.answer.trim();
     
     // Normalizar espacios en ambas respuestas
-    const normalizedUserAnswer = userAnswer.replace(/\s+/g, ' ');
-    const normalizedCorrectAnswer = correctAnswer.replace(/\s+/g, ' ');
+    const normalizedUserAnswer = userAnswer.replace(/\s+/g, '');
+    const normalizedCorrectAnswer = correctAnswer.replace(/\s+/g, '');
     
+    // Para ecuaciones lineales (nivel 2), verificar si el valor numérico es el mismo
+    if (currentProblem.type === "solving") {
+        const userValue = parseFloat(normalizedUserAnswer);
+        const correctValue = parseFloat(normalizedCorrectAnswer);
+        
+        if (!isNaN(userValue) && !isNaN(correctValue) && 
+            Math.abs(userValue - correctValue) < 0.0001) { // Usar una pequeña tolerancia para comparaciones de punto flotante
+            // Respuesta correcta
+            showFeedback("¡Correcto!", "success");
+            
+            // Marcar como resuelta
+            solvedDoors.push({
+                x: currentProblem.x,
+                y: currentProblem.y
+            });
+            
+            // Abrir la puerta
+            currentMaze[currentProblem.y][currentProblem.x] = CELL_TYPES.SOLVED_DOOR;
+            gameState.problemsSolved++;
+            updateDoorsCount();
+            drawMaze();
+            
+            // Cerrar modal después de un breve delay
+            setTimeout(() => {
+                closeModal();
+                showMessage("¡Puerta abierta!");
+            }, 1000);
+            return;
+        }
+    }
+    
+    // Para otros tipos de problemas o si la respuesta no es correcta
     if (normalizedUserAnswer === normalizedCorrectAnswer) {
         // Respuesta correcta
         showFeedback("¡Correcto!", "success");
@@ -1536,8 +1581,7 @@ function checkAnswer() {
         // Marcar como resuelta
         solvedDoors.push({
             x: currentProblem.x,
-            y: currentProblem.y,
-            problemIndex: LEVELS[gameState.currentLevel].problems.indexOf(currentProblem)
+            y: currentProblem.y
         });
         
         // Abrir la puerta
