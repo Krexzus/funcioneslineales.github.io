@@ -5,6 +5,23 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Teoría - Funciones Lineales</title>
     <link rel="stylesheet" href="style.css">
+    <!-- Agregar KaTeX CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <style>
+        .formula {
+            font-size: 1.2em;
+            padding: 10px;
+            margin: 10px 0;
+            background-color: var(--bg-secondary);
+            border-radius: 5px;
+            text-align: center;
+        }
+        .katex-display {
+            margin: 1em 0;
+            overflow-x: auto;
+            overflow-y: hidden;
+        }
+    </style>
 </head>
 <body>
     <nav class="navbar">
@@ -27,7 +44,7 @@
             <section class="teoria-section">
                 <h2>¿Qué es una Función Lineal?</h2>
                 <p>Una función lineal es una relación matemática entre dos variables donde la variable dependiente (y) cambia de manera constante con respecto a la variable independiente (x). Se representa mediante la ecuación:</p>
-                <div class="formula">y = ax + b</div>
+                <div class="formula">\[y = ax + b\]</div>
                 <p>Donde:</p>
                 <ul>
                     <li><strong>a:</strong> Es la pendiente de la recta (tasa de cambio constante)</li>
@@ -41,7 +58,7 @@
                 <h2>Elementos Fundamentales</h2>
                 <h3>1. La Pendiente (a)</h3>
                 <p>La pendiente representa la inclinación de la recta y se puede interpretar como:</p>
-                <div class="formula">a = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1}</div>
+                <div class="formula">\[a = \frac{\Delta y}{\Delta x} = \frac{y_2 - y_1}{x_2 - x_1}\]</div>
                 <ul>
                     <li><strong>Pendiente Positiva (a > 0):</strong> La función es creciente</li>
                     <li><strong>Pendiente Negativa (a < 0):</strong> La función es decreciente</li>
@@ -92,19 +109,19 @@
                 <h2>Formas de Representación</h2>
                 <div class="teoria-subsection">
                     <h3>1. Forma Pendiente-Intersección</h3>
-                    <div class="formula">y = ax + b</div>
+                    <div class="formula">\[y = ax + b\]</div>
                     <p>La forma más común y útil para graficar</p>
                 </div>
 
                 <div class="teoria-subsection">
                     <h3>2. Forma Punto-Pendiente</h3>
-                    <div class="formula">y - y₁ = a(x - x₁)</div>
+                    <div class="formula">\[y - y_1 = a(x - x_1)\]</div>
                     <p>Útil cuando conocemos un punto y la pendiente</p>
                 </div>
 
                 <div class="teoria-subsection">
                     <h3>3. Forma General</h3>
-                    <div class="formula">Ax + By + C = 0</div>
+                    <div class="formula">\[Ax + By + C = 0\]</div>
                     <p>Donde A y B no pueden ser simultáneamente cero</p>
                 </div>
             </section>
@@ -143,19 +160,19 @@
                 <h2>Casos Especiales</h2>
                 <div class="teoria-subsection">
                     <h3>1. Recta que pasa por el origen</h3>
-                    <div class="formula">y = ax</div>
+                    <div class="formula">\[y = ax\]</div>
                     <p>Cuando b = 0, la recta pasa por el origen (0,0)</p>
                 </div>
 
                 <div class="teoria-subsection">
                     <h3>2. Recta horizontal</h3>
-                    <div class="formula">y = b</div>
+                    <div class="formula">\[y = b\]</div>
                     <p>Cuando a = 0, la recta es paralela al eje X</p>
                 </div>
 
                 <div class="teoria-subsection">
                     <h3>3. Recta vertical</h3>
-                    <div class="formula">x = k</div>
+                    <div class="formula">\[x = k\]</div>
                     <p>No es una función, pero es una recta en el plano</p>
                 </div>
             </section>
@@ -186,13 +203,13 @@
                 <div class="teoria-subsection">
                     <h3>1. Composición de Funciones</h3>
                     <p>La composición de dos funciones lineales es también una función lineal:</p>
-                    <div class="formula">(f ∘ g)(x) = f(g(x)) = a₁(a₂x + b₂) + b₁ = (a₁a₂)x + (a₁b₂ + b₁)</div>
+                    <div class="formula">\[(f \circ g)(x) = f(g(x)) = a_1(a_2x + b_2) + b_1 = (a_1a_2)x + (a_1b_2 + b_1)\]</div>
                 </div>
 
                 <div class="teoria-subsection">
                     <h3>2. Inversa de una Función Lineal</h3>
                     <p>La inversa de una función lineal f(x) = ax + b es:</p>
-                    <div class="formula">f⁻¹(x) = \frac{x - b}{a}</div>
+                    <div class="formula">\[f^{-1}(x) = \frac{x - b}{a}\]</div>
                     <p>Donde a ≠ 0</p>
                 </div>
 
@@ -212,13 +229,13 @@
                 <div class="teoria-subsection">
                     <h3>1. Ángulo de Inclinación</h3>
                     <p>El ángulo θ que forma la recta con el eje X positivo está relacionado con la pendiente:</p>
-                    <div class="formula">θ = arctan(a)</div>
+                    <div class="formula">\[\theta = \arctan(a)\]</div>
                 </div>
 
                 <div class="teoria-subsection">
                     <h3>2. Distancia entre Puntos</h3>
                     <p>La distancia entre dos puntos (x₁, y₁) y (x₂, y₂) en una recta es:</p>
-                    <div class="formula">d = \sqrt{(x₂ - x₁)² + (y₂ - y₁)²}</div>
+                    <div class="formula">\[d = \sqrt{(x_2 - x_1)^2 + (y_2 - y_1)^2}\]</div>
                 </div>
 
                 <div class="teoria-subsection">
@@ -235,7 +252,7 @@
                 <div class="teoria-subsection">
                     <h3>1. Límites</h3>
                     <p>Para cualquier función lineal f(x) = ax + b:</p>
-                    <div class="formula">\lim_{x \to c} f(x) = f(c)</div>
+                    <div class="formula">\[\lim_{x \to c} f(x) = f(c)\]</div>
                     <p>Donde c es cualquier número real</p>
                 </div>
 
@@ -323,6 +340,20 @@
             
             // Agregar evento click al botón
             document.getElementById('theme-toggle').addEventListener('click', toggleTheme);
+        });
+    </script>
+
+    <!-- Agregar KaTeX JS -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            renderMathInElement(document.body, {
+                delimiters: [
+                    {left: "\\[", right: "\\]", display: true},
+                    {left: "\\(", right: "\\)", display: false}
+                ]
+            });
         });
     </script>
 </body>
