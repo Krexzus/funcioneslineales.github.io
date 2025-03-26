@@ -72,19 +72,29 @@ function generateLevel2Problem() {
     
     do {
         // Asegurarnos que a y c sean diferentes para evitar infinitas soluciones
-        a = Math.floor(Math.random() * 5) + 1; // 1 a 5
-        c = Math.floor(Math.random() * 4); // 0 a 3
+        // y que sean números pequeños y positivos para evitar divisiones complejas
+        a = Math.floor(Math.random() * 3) + 1; // 1 a 3
+        c = Math.floor(Math.random() * 2); // 0 a 1
     } while (a === c); // Repetir si son iguales
     
-    // Generar una solución entera razonable
+    // Generar una solución entera razonable (entre -5 y 5)
     solution = Math.floor(Math.random() * 11) - 5; // -5 a 5
     
-    // Generar b y d de manera que la ecuación tenga una solución entera
+    // Generar b de manera que sea un número entero razonable
+    b = Math.floor(Math.random() * 11) - 5; // -5 a 5
+    
+    // Calcular d de manera que la ecuación tenga la solución deseada
     // ax + b = cx + d
     // ax - cx = d - b
     // (a-c)x = d - b
     // d = (a-c)x + b
     d = (a - c) * solution + b;
+    
+    // Verificar que d sea un número razonable (entre -10 y 10)
+    if (d < -10 || d > 10) {
+        // Si d es muy grande, regenerar el problema
+        return generateLevel2Problem();
+    }
     
     // Construir el enunciado de manera más clara
     let leftSide = '';
@@ -118,31 +128,22 @@ function generateLevel2Problem() {
 }
 
 function generateLevel3Problem() {
-    // Generar puntos o pendiente e intercepto para ecuación lineal
-    const problemType = Math.random() < 0.5 ? 'points' : 'slope-intercept';
-    let statement, answer;
+    // Generar pendiente e intercepto enteros
+    const m = Math.floor(Math.random() * 7) - 3; // -3 a 3
+    const b = Math.floor(Math.random() * 11) - 5; // -5 a 5
 
-    if (problemType === 'points') {
-        // Generar puntos que resulten en una pendiente entera
-        const x1 = Math.floor(Math.random() * 5) - 2; // -2 a 2
-        const y1 = Math.floor(Math.random() * 9) - 4; // -4 a 4
-        const x2 = x1 + Math.floor(Math.random() * 3) + 1; // x1 + (1 a 3)
-        
-        // Calcular y2 para que la pendiente sea entera
-        const m = Math.floor(Math.random() * 7) - 3; // -3 a 3
-        const y2 = y1 + m * (x2 - x1);
-        
-        // Calcular b para que sea entero
-        const b = y1 - m * x1;
+    // Construir el enunciado
+    let statement = `Escribe la ecuación de la recta con pendiente ${m} e intercepto en y = ${b}. Usa el formato y = mx + b\n\nIMPORTANTE:\n- Si la pendiente es 1, puedes escribir solo 'x' en lugar de '1x'\n- Si el intercepto es 0, puedes omitir '+ 0' o '- 0'\n- Incluye espacios después de cada símbolo\n\nEjemplos:\n- y = 1x + 0 se puede escribir como y = x\n- y = 2x - 0 se puede escribir como y = 2x\n- y = 1x + 3 se puede escribir como y = x + 3`;
 
-        statement = `Encuentra la ecuación de la recta que pasa por los puntos (${x1},${y1}) y (${x2},${y2}). Usa el formato y = mx + b`;
-        answer = `y = ${m}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
+    // Construir la respuesta en el formato correcto con espacios
+    let answer;
+    if (m === 1 && b === 0) {
+        answer = 'y = x';
+    } else if (m === 1) {
+        answer = `y = x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
+    } else if (b === 0) {
+        answer = `y = ${m}x`;
     } else {
-        // Generar pendiente e intercepto enteros
-        const m = Math.floor(Math.random() * 7) - 3; // -3 a 3
-        const b = Math.floor(Math.random() * 11) - 5; // -5 a 5
-
-        statement = `Escribe la ecuación de la recta con pendiente ${m} e intercepto en y = ${b}. Usa el formato y = mx + b`;
         answer = `y = ${m}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
     }
 
@@ -150,7 +151,7 @@ function generateLevel3Problem() {
         type: "equation",
         statement: statement,
         answer: answer,
-        hint: "Recuerda incluir espacios después de cada símbolo en el formato y = mx + b"
+        hint: "Recuerda que puedes simplificar la ecuación:\n- Si la pendiente es 1, escribe solo 'x'\n- Si el intercepto es 0, omite '+ 0' o '- 0'\n- Incluye espacios después de cada símbolo"
     };
 }
 
