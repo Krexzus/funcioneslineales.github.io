@@ -1422,11 +1422,15 @@ function completeLevel() {
     const menuBtn = document.getElementById('completion-menu-btn');
     
     if (nextLevelBtn) {
+        // Remover cualquier evento anterior
+        nextLevelBtn.replaceWith(nextLevelBtn.cloneNode(true));
+        const newNextLevelBtn = document.getElementById('next-level-btn');
+        
         if (gameState.currentLevel < 3) {
-            nextLevelBtn.style.display = 'block';
-            nextLevelBtn.onclick = () => startNextLevel();
+            newNextLevelBtn.style.display = 'block';
+            newNextLevelBtn.addEventListener('click', startNextLevel);
         } else {
-            nextLevelBtn.style.display = 'none';
+            newNextLevelBtn.style.display = 'none';
             completeGame();
         }
     }
