@@ -1442,8 +1442,26 @@ function completeLevel() {
  * Inicia el siguiente nivel
  */
 function startNextLevel() {
+    console.log('Iniciando siguiente nivel. Nivel actual:', gameState.currentLevel);
     const nextLevel = gameState.currentLevel + 1;
+    console.log('Siguiente nivel:', nextLevel);
+    
     if (nextLevel <= 3) {
+        // Reiniciar el estado del juego para el nuevo nivel
+        gameState.problemsSolved = 0;
+        gameState.wrongAttempts = 0;
+        gameState.lives = 3;
+        gameState.startTime = null;
+        gameState.elapsedTime = 0;
+        gameState.isGameOver = false;
+        solvedDoors = [];
+        usedProblems.clear();
+        
+        // Actualizar el nivel actual
+        gameState.currentLevel = nextLevel;
+        console.log('Nivel actualizado a:', gameState.currentLevel);
+        
+        // Iniciar el nuevo nivel
         startLevel(nextLevel);
     } else {
         completeGame();
