@@ -514,6 +514,9 @@ function startLevel(level) {
     gameState.totalProblems = 5; // Cada nivel tendrá 5 problemas
     gameState.isGameOver = false;
     
+    // Reiniciar el índice de pistas
+    currentHintIndex = 0;
+    
     // Actualizar vidas según el nivel
     updateLivesForLevel();
     updateLivesCount();
@@ -1593,15 +1596,18 @@ function showHint() {
             }
         ];
 
-        // Obtener la pista actual y avanzar al siguiente índice
+        // Obtener la pista actual
         const currentHint = hints[currentHintIndex];
-        currentHintIndex = (currentHintIndex + 1) % hints.length;
-
+        
+        // Mostrar el número de pista actual (sumando 1 para que empiece desde 1)
         message = `Pista ${currentHintIndex + 1} de ${hints.length}:\n\n` +
                  `${currentHint.title}\n\n` +
                  `Fórmula:\n${currentHint.formula}\n\n` +
                  `${currentHint.explanation}\n\n` +
                  `Presiona H para ver otra pista.`;
+        
+        // Avanzar al siguiente índice después de mostrar la pista
+        currentHintIndex = (currentHintIndex + 1) % hints.length;
     } else {
         const levelInfo = LEVELS[gameState.currentLevel];
         message = `Consejos para el Nivel ${gameState.currentLevel}:\n\n${levelInfo.description}\n\nBusca las puertas amarillas y resuelve los problemas para avanzar.`;
