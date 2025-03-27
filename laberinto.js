@@ -128,30 +128,84 @@ function generateLevel2Problem() {
 }
 
 function generateLevel3Problem() {
-    // Generar pendiente e intercepto enteros
-    const m = Math.floor(Math.random() * 7) - 3; // -3 a 3
-    const b = Math.floor(Math.random() * 11) - 5; // -5 a 5
+    // Generar un tipo aleatorio de problema
+    const problemType = Math.floor(Math.random() * 5); // 0 a 4
 
-    // Construir el enunciado
-    let statement = `Escribe la ecuación de la recta con pendiente ${m} e intercepto en y = ${b}. Usa el formato y = mx + b\n\nIMPORTANTE:\n- Si la pendiente es 1, puedes escribir solo 'x' en lugar de '1x'\n- Si el intercepto es 0, puedes omitir '+ 0' o '- 0'\n- Incluye espacios después de cada símbolo\n\nEjemplos:\n- y = 1x + 0 se puede escribir como y = x\n- y = 2x - 0 se puede escribir como y = 2x\n- y = 1x + 3 se puede escribir como y = x + 3`;
+    let statement, answer, hint;
 
-    // Construir la respuesta en el formato correcto con espacios
-    let answer;
-    if (m === 1 && b === 0) {
-        answer = 'y = x';
-    } else if (m === 1) {
-        answer = `y = x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
-    } else if (b === 0) {
-        answer = `y = ${m}x`;
-    } else {
-        answer = `y = ${m}x ${b >= 0 ? '+ ' + b : '- ' + Math.abs(b)}`;
+    switch (problemType) {
+        case 0: // Calcular pendiente dados dos puntos
+            const x1 = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const y1 = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const m = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const x2 = x1 + Math.floor(Math.random() * 3) + 1; // x1 + (1 a 3)
+            const y2 = y1 + m * (x2 - x1); // Calcular y2 para que la pendiente sea m
+
+            statement = `Calcula la pendiente de la recta que pasa por (${x1}, ${y1}) y (${x2}, ${y2})`;
+            answer = m.toString();
+            hint = "Utiliza la fórmula:\n𝑎 = (𝑦2 - 𝑦1)/(𝑥2 - 𝑥1)";
+            break;
+
+        case 1: // Calcular pendiente de ecuación general
+            const A = Math.floor(Math.random() * 7) - 3; // -3 a 3
+            const B = 1; // Siempre 1 para mantener la forma general
+            const C = Math.floor(Math.random() * 11) - 5; // -5 a 5
+            const sign = Math.random() < 0.5 ? '+' : '-';
+
+            statement = `Si la ecuación de una recta ${A}x ${sign} y ${C >= 0 ? '- ' + C : '+ ' + Math.abs(C)} = 0, ¿Cuál es su pendiente?`;
+            answer = A.toString();
+            hint = "Utiliza la fórmula:\n𝑎 = -𝐴/𝐵";
+            break;
+
+        case 2: // Ecuación de recta horizontal
+            const y = Math.floor(Math.random() * 11) - 5; // -5 a 5
+
+            statement = `Ecuación en la forma y = ax + b de una recta horizontal que pasa por (0, ${y})`;
+            answer = `y = ${y}`;
+            hint = "La pendiente de una recta horizontal es cero";
+            break;
+
+        case 3: // Ecuación dados punto y pendiente
+            const px = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const py = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const pm = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const pb = py - pm * px; // Calcular b para que la recta pase por el punto
+
+            statement = `Ecuación en la forma y = ax + b de una recta que pasa por (${px}, ${py}) y su pendiente es ${pm}`;
+
+            if (pm === 0) {
+                answer = `y = ${py}`;
+            } else if (pm === 1 && pb === 0) {
+                answer = 'y = x';
+            } else if (pm === 1) {
+                answer = `y = x ${pb >= 0 ? '+ ' + pb : '- ' + Math.abs(pb)}`;
+            } else if (pb === 0) {
+                answer = `y = ${pm}x`;
+            } else {
+                answer = `y = ${pm}x ${pb >= 0 ? '+ ' + pb : '- ' + Math.abs(pb)}`;
+            }
+
+            hint = "Utiliza el modelo punto-pendiente:\n𝑦 - 𝑦1 = 𝑚(𝑥 - 𝑥1)";
+            break;
+
+        case 4: // Calcular pendiente dados dos puntos (variante)
+            const vx1 = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const vy1 = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const vm = Math.floor(Math.random() * 5) - 2; // -2 a 2
+            const vx2 = vx1 - Math.floor(Math.random() * 3) - 1; // x1 - (1 a 3)
+            const vy2 = vy1 + vm * (vx2 - vx1); // Calcular y2 para que la pendiente sea vm
+
+            statement = `Calcula la pendiente de la recta que pasa por (${vx1}, ${vy1}) y (${vx2}, ${vy2})`;
+            answer = vm.toString();
+            hint = "Utiliza la fórmula:\n𝑎 = (𝑦2 - 𝑦1)/(𝑥2 - 𝑥1)";
+            break;
     }
 
     return {
         type: "equation",
         statement: statement,
         answer: answer,
-        hint: "Recuerda que puedes simplificar la ecuación:\n- Si la pendiente es 1, escribe solo 'x'\n- Si el intercepto es 0, omite '+ 0' o '- 0'\n- Incluye espacios después de cada símbolo"
+        hint: hint
     };
 }
 
@@ -183,6 +237,7 @@ let solvedDoors = [];
 
 // Agregar al inicio del archivo, junto con las otras variables globales
 let usedProblems = new Set();
+let currentHintIndex = 0;
 
 // ======= INICIALIZACIÓN =======
 // Asegurarse de que el DOM esté cargado antes de iniciar
@@ -1293,14 +1348,8 @@ function showSimpleProblem(doorX, doorY) {
         y: doorY
     };
     
-    // Preparar el mensaje según el tipo de problema y nivel
-    let promptMessage = problem.statement;
-    if (gameState.currentLevel === 3) {
-        promptMessage += "\n\nIMPORTANTE: Asegúrate de incluir espacios después de cada símbolo.\nEjemplo del formato: 'y = 2x + 1' (con espacios después de y, =, +)";
-    }
-    
     // Mostrar alerta con el problema
-    const respuesta = prompt(promptMessage + "\n\nEscribe tu respuesta:");
+    const respuesta = prompt(problem.statement + "\n\nEscribe tu respuesta:");
     
     if (respuesta !== null) {
         if (respuesta.trim().toLowerCase() === problem.answer.toLowerCase()) {
@@ -1333,11 +1382,7 @@ function showSimpleProblem(doorX, doorY) {
                 alert("¡Game Over! Te has quedado sin vidas.");
                 showGameOver();
             } else {
-                if (gameState.currentLevel === 3) {
-                    alert(`Respuesta incorrecta. Recuerda incluir los espacios correctamente.\nTe quedan ${gameState.lives} vidas.`);
-                } else {
-                    alert(`Respuesta incorrecta. Te quedan ${gameState.lives} vidas.`);
-                }
+                alert(`Respuesta incorrecta. Te quedan ${gameState.lives} vidas.`);
             }
         }
     } else {
@@ -1517,8 +1562,50 @@ function showProblemHint() {
  * Muestra una pista general del nivel actual
  */
 function showHint() {
-    const levelInfo = LEVELS[gameState.currentLevel];
-    const message = `Consejos para el Nivel ${gameState.currentLevel}:\n\n${levelInfo.description}\n\nBusca las puertas amarillas y resuelve los problemas para avanzar.`;
+    let message;
+    
+    if (gameState.currentLevel === 3) {
+        const hints = [
+            {
+                title: "Fórmula de pendiente entre dos puntos",
+                formula: "𝑎 = (𝑦2 - 𝑦1)/(𝑥2 - 𝑥1)",
+                explanation: "Usa esta fórmula cuando te den dos puntos por los que pasa la recta"
+            },
+            {
+                title: "Fórmula de pendiente en ecuación general",
+                formula: "𝑎 = -𝐴/𝐵",
+                explanation: "Usa esta fórmula cuando la ecuación esté en la forma Ax + By + C = 0"
+            },
+            {
+                title: "Recta horizontal",
+                formula: "y = b",
+                explanation: "La pendiente de una recta horizontal es cero, por lo que la ecuación es y = b"
+            },
+            {
+                title: "Modelo punto-pendiente",
+                formula: "𝑦 - 𝑦1 = 𝑚(𝑥 - 𝑥1)",
+                explanation: "Usa esta fórmula cuando te den un punto y la pendiente de la recta"
+            },
+            {
+                title: "Forma pendiente-intercepto",
+                formula: "y = mx + b",
+                explanation: "La forma más común de escribir la ecuación de una recta, donde m es la pendiente y b es el intercepto"
+            }
+        ];
+
+        // Obtener la pista actual y avanzar al siguiente índice
+        const currentHint = hints[currentHintIndex];
+        currentHintIndex = (currentHintIndex + 1) % hints.length;
+
+        message = `Pista ${currentHintIndex + 1} de ${hints.length}:\n\n` +
+                 `${currentHint.title}\n\n` +
+                 `Fórmula:\n${currentHint.formula}\n\n` +
+                 `${currentHint.explanation}\n\n` +
+                 `Presiona H para ver otra pista.`;
+    } else {
+        const levelInfo = LEVELS[gameState.currentLevel];
+        message = `Consejos para el Nivel ${gameState.currentLevel}:\n\n${levelInfo.description}\n\nBusca las puertas amarillas y resuelve los problemas para avanzar.`;
+    }
     
     console.log('Mostrando pista del nivel:', message);
     showMessage(message, 4000);
